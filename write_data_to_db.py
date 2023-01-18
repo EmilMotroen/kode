@@ -1,10 +1,12 @@
-#!/usr/bin/env python
 """
 Write data to an influxdb database
+
+Launch influx with 
+    cd C:\'Program Files'\InfluxData\influxdb
+    ./influxdb
+in powershell
 """
 from datetime import datetime
-import time
-
 from influxdb_client import InfluxDBClient, Point, WritePrecision
 from influxdb_client.client.write_api import SYNCHRONOUS
 
@@ -17,9 +19,9 @@ client = InfluxDBClient(url="http://localhost:8086", token=token)
 
 write_api = client.write_api(write_options=SYNCHRONOUS)
 
-x = 9
-y = -2
-z = -5
+x = 5
+y = -1
+z = -11
 i = 0
 points = []
 while i < 10:
