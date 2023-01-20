@@ -18,8 +18,8 @@ data_frame = query_api.query_data_frame(f'from(bucket:"{bucket}")'
                                         '|> pivot(rowKey:["_time"], columnKey:["_field"], valueColumn:"_value")'
                                         '|> keep(columns: ["x-coord", "y-coord", "z-coord"])')
 
-pd_data_frame = pd.DataFrame(data_frame)
-print('query data frame:')
-print(data_frame.to_string())
-print('pandas data frame')
-print(pd_data_frame)
+pd_data_frame = pd.DataFrame(data_frame)  # Bruke Pandas for å behandle data
+
+pd_data_frame.drop('result', inplace=True, axis=1); pd_data_frame.drop('table', inplace=True, axis=1)  # Fjern unødvendige kolonner
+pd_data_frame.columns = ['X', 'Y', 'Z']  # Skriver X i stedet for x-coord, samme med Y og Z
+print(f'\n{pd_data_frame}')  # Etter unødvendige kolonner fjernes og navn forbedres

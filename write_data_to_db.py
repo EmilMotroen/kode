@@ -19,9 +19,9 @@ client = InfluxDBClient(url="http://localhost:8086", token=token)
 
 write_api = client.write_api(write_options=SYNCHRONOUS)
 
-x = 5
-y = -1
-z = -11
+x = -1
+y = 4
+z = -5
 i = 0
 points = []
 while i < 10:
