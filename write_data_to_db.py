@@ -19,12 +19,12 @@ client = InfluxDBClient(url="http://localhost:8086", token=token)
 
 write_api = client.write_api(write_options=SYNCHRONOUS)
 
-x = -1
-y = 4
-z = -5
+x = 21
+y = 23
+z = -31
 i = 0
 points = []
-while i < 10:
+while i < 25:
     point = Point("Coordinates")\
         .tag("Location", "Horten")\
         .field("x-coord", x)\
