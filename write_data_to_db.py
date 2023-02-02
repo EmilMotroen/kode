@@ -9,33 +9,36 @@ in powershell
 from datetime import datetime
 from influxdb_client import InfluxDBClient, Point, WritePrecision
 from influxdb_client.client.write_api import SYNCHRONOUS
+import numpy as np
 
 # You can generate a Token from the "Tokens Tab" in the UI
-token = "-CdLFPnsV_raxn3j6hYrp_u9pRg-1EGTAyPh047mlL6jfVWxTX_t3PZVBS2QWfjOJLSYatMcLtNjpFe47AmmLA=="
+token = "Z1O3pS-GV2Mf0KJi4TVpcn22D_fZ4Hi3eTj8DGPbFQVrfb1FIkUbg1Cn_BPd8SB0VARDNDvqdYr1luqy6teCHw=="
 org = "USN"
 bucket = "alpide-data"
 
 client = InfluxDBClient(url="http://localhost:8086", token=token)
 
 write_api = client.write_api(write_options=SYNCHRONOUS)
-
-x = 21
-y = 23
-z = -31
-i = 0
 points = []
-while i < 25:
+x = np.random.randint(-4, 12)
+y = np.random.randint(-12, 4)
+alpide_id = 0  # Z-akse
+i = 0
+while i != 10:
     point = Point("Coordinates")\
         .tag("Location", "Horten")\
-        .field("x-coord", x)\
-        .field("y-coord", y)\
-        .field("z-coord", z)\
+        .field("X", x)\
+        .field("Y", y)\
+        .field("ALPIDE-ID", alpide_id)\
         .time(datetime.utcnow(), WritePrecision.NS)
-    points.append(point)
-    
-    x -= 1
-    y += 1
-    z += 2
+    try:
+        write_api.write(bucket, org, point)  # Skriver til database
+    except Exception as e:
+        print(f'Exception caught: {e}')
+        break
     i += 1
-write_api.write(bucket, org, points)  # Skriver til database
+    x -= 2
+    y += 3
+    alpide_id += 1
+
 print('...ferdig')
